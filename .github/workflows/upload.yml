@@ -1,4 +1,4 @@
-name: Deploy to cPanel
+name: Deploy to cPanel (SFTP)
 
 on:
   push:
@@ -6,21 +6,19 @@ on:
       - main
 
 jobs:
-  FTP-Deploy-Action:
-    name: FTP Deploy
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 2
 
-      - name: Deploy to cPanel via FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+      - name: Deploy via SFTP (cPanel)
+        uses: appleboy/scp-action@v0.1.7
         with:
-          server: ${{ secrets.FTP_SERVER }}
+          host: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          port: ${{ secrets.FTP_PORT }}
-
+          port: 22
+          source: "."
+          target: "/home/gelavoml/"
