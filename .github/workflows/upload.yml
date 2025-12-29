@@ -1,4 +1,4 @@
-name: 🚀 Deploy Next.js to cPanel (Standalone)
+name: Deploy to cPanel
 
 on:
   push:
@@ -6,28 +6,21 @@ on:
       - main
 
 jobs:
-  deploy:
+  FTP-Deploy-Action:
+    name: FTP Deploy
     runs-on: ubuntu-latest
 
     steps:
-      - name: 📥 Checkout repository
+      - name: Checkout repository
         uses: actions/checkout@v4
-
-      - name: 🟢 Setup Node.js
-        uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          fetch-depth: 2
 
-      - name: 📦 Install dependencies
-        run: npm install
-
-      - name: 🏗 Build Next.js (standalone)
-        run: npm run build
-
-      - name: 🚀 Upload to cPanel via FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.6
+      - name: Deploy to cPanel via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           port: ${{ secrets.FTP_PORT }}
+
