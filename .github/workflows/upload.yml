@@ -1,4 +1,4 @@
-name: Deploy to cPanel (SFTP)
+name: 💈 Deploy Turkish Art Gents Salon to cPanel
 
 on:
   push:
@@ -10,12 +10,31 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      # 1️⃣ Get the latest code
+      - name: 📥 Checkout repository
         uses: actions/checkout@v4
 
-      - name: Deploy via FTP (cPanel)
-        uses: appleboy/scp-action@v0.1.7
+      # 2️⃣ Setup Node.js (recommended for Next.js)
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          host: ${{ secrets.FTP_SERVER }}
+          node-version: '20'
+
+      # 3️⃣ Install dependencies
+      - name: 📦 Install dependencies
+        run: npm install
+
+      # 4️⃣ Build Next.js (production)
+      - name: 🏗 Build Next.js
+        run: npm run build
+
+      # 5️⃣ Deploy to cPanel via FTP
+      - name: 🚀 Upload to cPanel (Turkish Art Gents Salon)
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.6
+        with:
+          server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
+          port: ${{ secrets.FTP_PORT }}
+          local-dir: ./
+          server-dir: turkish-art-gents-salon/
