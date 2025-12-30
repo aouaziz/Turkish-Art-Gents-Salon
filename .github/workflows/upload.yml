@@ -24,6 +24,12 @@ jobs:
       - name: 🏗 Build Next.js (standalone)
         run: npm run build
 
+      # 🔥 REQUIRED for Next 16 + standalone
+      - name: 📂 Copy static files
+        run: |
+          cp -r .next/static .next/standalone/.next/
+          cp -r public .next/standalone/
+
       - name: 🚀 Upload standalone build to cPanel
         uses: SamKirkland/FTP-Deploy-Action@v4.3.6
         with:
@@ -33,4 +39,3 @@ jobs:
           port: ${{ secrets.FTP_PORT }}
           local-dir: .next/standalone/
           server-dir: /
-          
