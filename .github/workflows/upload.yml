@@ -1,4 +1,4 @@
-name: 💈 Deploy Turkish Art Gents Salon to cPanel
+name: 💈 Deploy Turkish Art Gents Salon (Standalone)
 
 on:
   push:
@@ -10,31 +10,27 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Get the latest code
       - name: 📥 Checkout repository
         uses: actions/checkout@v4
 
-      # 2️⃣ Setup Node.js (recommended for Next.js)
       - name: 🟢 Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
 
-      # 3️⃣ Install dependencies
       - name: 📦 Install dependencies
-        run: npm install
+        run: npm ci
 
-      # 4️⃣ Build Next.js (production)
-      - name: 🏗 Build Next.js
+      - name: 🏗 Build Next.js (standalone)
         run: npm run build
 
-      # 5️⃣ Deploy to cPanel via FTP
-      - name: 🚀 Upload to cPanel (Turkish Art Gents Salon)
+      - name: 🚀 Upload standalone build to cPanel
         uses: SamKirkland/FTP-Deploy-Action@v4.3.6
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           port: ${{ secrets.FTP_PORT }}
-          local-dir: ./
-          server-dir: turkish-art-gents-salon/
+          local-dir: .next/standalone/
+          server-dir: /
+          
