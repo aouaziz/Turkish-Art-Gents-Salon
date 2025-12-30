@@ -31,5 +31,5 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           port: ${{ secrets.FTP_PORT }}
           local-dir: ./
-          server-dir: Salon/
+          server-dir: ./
           
